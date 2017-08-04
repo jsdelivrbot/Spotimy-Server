@@ -3,6 +3,9 @@ var express = require('express');
 var home = require('./routes/default');
 var auth = require('./routes/auth');
 
+// used for .env variables.
+require('dotenv').config();
+
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));

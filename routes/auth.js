@@ -1,8 +1,24 @@
 var express = require('express');
+var request = require('request');
+
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.send("Auth API");
+router.post('/', function(req, res, next) {
+    var authCode = req.params.code;
+    var data = {
+        code : authCode,
+        grant_type : "authorization_code",
+        redirect_uri : "chrisli://spotimy",
+        client_id : process.env.SPOTIFY_CLIENT_ID,
+        client_secret : process.env.SPOTIFY_CLIENT_SECRET
+    };
+    request.post(
+        'https://accounts.spotify.com/api/token',
+        { json : data },
+        function(err, response, body) {
+            res.send(body);
+        }
+    );
 });
 
 module.exports = router;
